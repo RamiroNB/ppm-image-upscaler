@@ -7,6 +7,7 @@ int main(){
 	struct image_s n_data;
 	struct image_s *n_image = &n_data;
 	int i, j, r;
+	int k, m = 0;
 
 	r = read_ppm("lena.ppm", image);
 
@@ -18,15 +19,25 @@ int main(){
 
 		for (j = 0; j < image->height; j++){
 			for (i = 0; i < image->width; i++){
-				/*printf("(%d %d) %02x %02x %02x\n", i, j,
-					   image->pix[j * image->width + i].r,
-					   image->pix[j * image->width + i].g,
-					   image->pix[j * image->width + i].b);*/
+				// printf("(%d %d) %02x %02x %02x\n", i, j,
+				// 	   image->pix[j * image->width + i].r,
+				// 	   image->pix[j * image->width + i].g,
+				// 	   image->pix[j * image->width + i].b);
 				//pegar um pixel e upscale pra matrix 3x3
 				image->pix[j * image->width + i].r;
 				image->pix[j * image->width + i].g;
 				image->pix[j * image->width + i].b;
 				
+				if(image->pix[j * image->width + i].r<75){
+
+				}else if(image->pix[j * image->width + i].r<135){
+					
+				}else if(image->pix[j * image->width + i].r<180){
+
+				}else{
+					
+				}
+
 			}
 		}
 
