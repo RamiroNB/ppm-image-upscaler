@@ -7,7 +7,7 @@ int main()
 	struct image_s *image = &data;
 	struct image_s n_data;
 	struct image_s *n_image = &n_data;
-	int i, j, r;
+	int r;
 	int k = 0;
 	int m = 0;
 
@@ -19,7 +19,6 @@ int main()
 		n_image->height = (image->height * 3);
 		printf("original image -> width: %d, height: %d\n", image->width, image->height);
 		printf("upscale image -> width: %d, height: %d\n", n_image->width, n_image->height);
-		free_ppm(image);
 	}
 
 	r = new_ppm(n_image, n_image->width, n_image->height);
@@ -28,39 +27,88 @@ int main()
 
 		m = 0;
 		k = 0;
-		for (int o = 0; o < image->height; o++)
+		for (int i = 0; i < image->height; i++)
 		{
-			for (int h = 0; h < image->width; h++)
+			for (int j = 0; j < image->width; j++)
 			{
-				// n_image->pix[k * n_image->width + m].r = 255;
-				// n_image->pix[(k + 1) * n_image->width + m].r = 255;
-				// n_image->pix[(k + 2) * n_image->width + m].r = 255;
-				// n_image->pix[k * n_image->width + m + 1].g = 255;
-				// n_image->pix[(k + 1) * n_image->width + m + 1].g = 255;
-				// n_image->pix[(k + 2) * n_image->width + m + 1].g = 255;
-				// n_image->pix[k * n_image->width + m + 2].b = 255;
-				// n_image->pix[(k + 1) * n_image->width + m + 2].b = 255;
-				// n_image->pix[(k + 2) * n_image->width + m + 2].b = 255;
-
 				// set the red colum of the 3x3 pixel matrix
-				if (image->pix[i * image->width + j].r < 75)
+				int red_pixel = image->pix[i * image->width + j].r;
+				if (red_pixel < 75) // char
 				{
 					n_image->pix[k * n_image->width + m].r = 0;
 					n_image->pix[(k + 1) * n_image->width + m].r = 0;
 					n_image->pix[(k + 2) * n_image->width + m].r = 0;
 				}
-				else if (image->pix[i * image->width + j].r < 135)
+				else if (red_pixel < 135)
 				{
+					n_image->pix[k * n_image->width + m].r = 0;
+					n_image->pix[(k + 1) * n_image->width + m].r = image->pix[i * image->width + j].r;
+					n_image->pix[(k + 2) * n_image->width + m].r = 0;
 				}
-				else if (image->pix[i * image->width + j].r < 180)
+				else if (red_pixel < 180)
 				{
+					n_image->pix[k * n_image->width + m].r = image->pix[i * image->width + j].r;
+					n_image->pix[(k + 1) * n_image->width + m].r = 0;
+					n_image->pix[(k + 2) * n_image->width + m].r = image->pix[i * image->width + j].r;
 				}
 				else
 				{
+					n_image->pix[k * n_image->width + m].r = image->pix[i * image->width + j].r;
+					n_image->pix[(k + 1) * n_image->width + m].r = image->pix[i * image->width + j].r;
+					n_image->pix[(k + 2) * n_image->width + m].r = image->pix[i * image->width + j].r;
 				}
 				// set the green colum of the 3x3 pixel matrix
-
+				int green_pixel = image->pix[i * image->width + j].g;
+				if (green_pixel < 75)
+				{
+					n_image->pix[k * n_image->width + m + 1].g = 0;
+					n_image->pix[(k + 1) * n_image->width + m + 1].g = 0;
+					n_image->pix[(k + 2) * n_image->width + m + 1].g = 0;
+				}
+				else if (green_pixel < 135)
+				{
+					n_image->pix[k * n_image->width + m + 1].g = 0;
+					n_image->pix[(k + 1) * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+					n_image->pix[(k + 2) * n_image->width + m + 1].g = 0;
+				}
+				else if (green_pixel < 180)
+				{
+					n_image->pix[k * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+					n_image->pix[(k + 1) * n_image->width + m + 1].g = 0;
+					n_image->pix[(k + 2) * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+				}
+				else
+				{
+					n_image->pix[k * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+					n_image->pix[(k + 1) * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+					n_image->pix[(k + 2) * n_image->width + m + 1].g = image->pix[i * image->width + j].g;
+				}
 				// set the blue colum of the 3x3 pixel matrix
+				int blue_pixel = image->pix[i * image->width + j].b;
+				if (blue_pixel < 75)
+				{
+					n_image->pix[k * n_image->width + m + 2].b = 0;
+					n_image->pix[(k + 1) * n_image->width + m + 2].b = 0;
+					n_image->pix[(k + 2) * n_image->width + m + 2].b = 0;
+				}
+				else if (blue_pixel < 135)
+				{
+					n_image->pix[k * n_image->width + m + 2].b = 0;
+					n_image->pix[(k + 1) * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+					n_image->pix[(k + 2) * n_image->width + m + 2].b = 0;
+				}
+				else if (blue_pixel < 180)
+				{
+					n_image->pix[k * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+					n_image->pix[(k + 1) * n_image->width + m + 2].b = 0;
+					n_image->pix[(k + 2) * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+				}
+				else
+				{
+					n_image->pix[k * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+					n_image->pix[(k + 1) * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+					n_image->pix[(k + 2) * n_image->width + m + 2].b = image->pix[i * image->width + j].b;
+				}
 
 				m = m + 3;
 			}
@@ -68,9 +116,7 @@ int main()
 			k = k + 3;
 		}
 
-		n_image->pix[1535 * n_image->width + 1535].r = 0;
-		n_image->pix[1535 * n_image->width + 1535].g = 255;
-		n_image->pix[1535 * n_image->width + 1535].b = 0;
+		free_ppm(image);
 		write_ppm("lena_upssacle.ppm", n_image);
 		free_ppm(n_image);
 	}
