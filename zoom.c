@@ -1,68 +1,79 @@
 #include <stdio.h>
 #include "lib_ppm.h"
 
-int main(){
+int main()
+{
 	struct image_s data;
 	struct image_s *image = &data;
 	struct image_s n_data;
 	struct image_s *n_image = &n_data;
 	int i, j, r;
-	int k, m = 0;
+	int k = 0;
+	int m = 0;
 
 	r = read_ppm("lena.ppm", image);
 
-	if (r == 0){
-		n_image->width=(image->width*3);
-		n_image->height=(image->width*3);
+	if (r == 0)
+	{
+		n_image->width = (image->width * 3);
+		n_image->height = (image->height * 3);
 		printf("original image -> width: %d, height: %d\n", image->width, image->height);
 		printf("upscale image -> width: %d, height: %d\n", n_image->width, n_image->height);
-
-		for (j = 0; j < image->height; j++){
-			for (i = 0; i < image->width; i++){
-				// printf("(%d %d) %02x %02x %02x\n", i, j,
-				// 	   image->pix[j * image->width + i].r,
-				// 	   image->pix[j * image->width + i].g,
-				// 	   image->pix[j * image->width + i].b);
-				//pegar um pixel e upscale pra matrix 3x3
-				image->pix[j * image->width + i].r;
-				image->pix[j * image->width + i].g;
-				image->pix[j * image->width + i].b;
-				
-				if(image->pix[j * image->width + i].r<75){
-
-				}else if(image->pix[j * image->width + i].r<135){
-					
-				}else if(image->pix[j * image->width + i].r<180){
-
-				}else{
-					
-				}
-
-			}
-		}
-
-		image->pix[50 * image->width + 20].r = 255;
-		image->pix[50 * image->width + 20].g = 255;
-		image->pix[50 * image->width + 20].b = 255;
-
-		//write_ppm("lena_copy.ppm", image);
-		write_ppm("lena_upssacle.ppm", image);
 		free_ppm(image);
 	}
 
-	// r = new_ppm(image, 675, 428);
+	r = new_ppm(n_image, n_image->width, n_image->height);
+	if (r == 0)
+	{
 
-	// if (r == 0){
-	// 	image->pix[100 * image->width + 125].r = 255;
-	// 	image->pix[27 * image->width + 440].g = 255;
+		m = 0;
+		k = 0;
+		for (int o = 0; o < image->height; o++)
+		{
+			for (int h = 0; h < image->width; h++)
+			{
+				// n_image->pix[k * n_image->width + m].r = 255;
+				// n_image->pix[(k + 1) * n_image->width + m].r = 255;
+				// n_image->pix[(k + 2) * n_image->width + m].r = 255;
+				// n_image->pix[k * n_image->width + m + 1].g = 255;
+				// n_image->pix[(k + 1) * n_image->width + m + 1].g = 255;
+				// n_image->pix[(k + 2) * n_image->width + m + 1].g = 255;
+				// n_image->pix[k * n_image->width + m + 2].b = 255;
+				// n_image->pix[(k + 1) * n_image->width + m + 2].b = 255;
+				// n_image->pix[(k + 2) * n_image->width + m + 2].b = 255;
 
-	// 	image->pix[371 * image->width + 10].r = 192;
-	// 	image->pix[371 * image->width + 10].g = 192;
-	// 	image->pix[371 * image->width + 10].b = 192;
+				// set the red colum of the 3x3 pixel matrix
+				if (image->pix[i * image->width + j].r < 75)
+				{
+					n_image->pix[k * n_image->width + m].r = 0;
+					n_image->pix[(k + 1) * n_image->width + m].r = 0;
+					n_image->pix[(k + 2) * n_image->width + m].r = 0;
+				}
+				else if (image->pix[i * image->width + j].r < 135)
+				{
+				}
+				else if (image->pix[i * image->width + j].r < 180)
+				{
+				}
+				else
+				{
+				}
+				// set the green colum of the 3x3 pixel matrix
 
-	// 	write_ppm("test.ppm", image);
-	// 	free_ppm(image);
-	// }
+				// set the blue colum of the 3x3 pixel matrix
+
+				m = m + 3;
+			}
+			m = 0;
+			k = k + 3;
+		}
+
+		n_image->pix[1535 * n_image->width + 1535].r = 0;
+		n_image->pix[1535 * n_image->width + 1535].g = 255;
+		n_image->pix[1535 * n_image->width + 1535].b = 0;
+		write_ppm("lena_upssacle.ppm", n_image);
+		free_ppm(n_image);
+	}
 
 	return 0;
 }
